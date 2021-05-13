@@ -9,11 +9,19 @@ Com o mysql instalado em sua máquina crie uma base de dados através do prompt 
 CREATE DATABASE aps
 ``` 
 
-Insira no arquivo .env o usuário, senha e nome da base de dados utilizada.
+Insira no arquivo .env o usuário, senha, nome da base e porta a ser utilizada.
 ```
-MYSQL_USERNAME="root"
-MYSQL_PASSWORD="admin"
-DATABASE="aps"
+TYPEORM_USERNAME="root"
+TYPEORM_PASSWORD="admin"
+TYPEORM_HOST="127.0.0.1"
+TYPEORM_PORT="3306"
+TYPEORM_DATABASE="aps"
+```
+
+### Verificando porta no Mysql
+Abra o prompt do mysql e digite o comando:
+```
+mysql> SHOW GLOBAL VARIABLES LIKE 'PORT';
 ```
 
 ## Rodando o projeto
