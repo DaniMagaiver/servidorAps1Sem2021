@@ -8,7 +8,7 @@ import { TalksService } from "./services";
 const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
-  cors: { origin: "*", methods: ["GET", "POST"] },
+  cors: { origin: "*", methods: ["GET", "POST"],  },
 });
 
 const server = app.listen(3000, () => {
