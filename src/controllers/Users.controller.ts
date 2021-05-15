@@ -62,4 +62,28 @@ export default class UserController {
     }
   }
 
+  static async findByEmail(request: Request, response: Response) {
+    try {
+      const { userEmail } = request.params;
+      const userService = new UsersService();
+      const user = await userService.findByEmail(userEmail);
+      if (!user)
+        throw new Error("Não existe usuário cadastrado com este email");
+      return response.status(200).json(user);
+    } catch (error) {
+      response.status(404).json(error.message);
+    }
+  }
+
+  static async findByName(request: Request, response: Response) {
+    try {
+      const { userName } = request.params;
+      const userService = new UsersService();
+      const user = await userService.findByName(userName);
+      if(!user) throw new Error(`Sem usuário cadastrados com o nome ${userName}`) 
+      return response.status(200).json(user);
+    } catch (error) {
+      response.status(404).json(error.message);
+    }
+  }
 }
