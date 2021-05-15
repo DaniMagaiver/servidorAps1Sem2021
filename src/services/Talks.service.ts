@@ -36,9 +36,13 @@ export class TalksService extends Services {
       if (talk) await messageService.create({ message, sender, talk });
       return this.findOne(commomTalk);
     } else {
-      const newTalk:Talks = await this.create({ sender, destinatary, message });
-      if(!newTalk) throw new Error('A conversa não pode ser criada');
-      return this.findOne(newTalk.id)
+      const newTalk: Talks = await this.create({
+        sender,
+        destinatary,
+        message,
+      });
+      if (!newTalk) throw new Error("A conversa não pode ser criada");
+      return this.findOne(newTalk.id);
     }
   }
 
@@ -59,7 +63,7 @@ export class TalksService extends Services {
     sender: Users;
     destinatary: Users;
     message: string;
-  }):Promise<Talks> {
+  }): Promise<Talks> {
     const messageService = new MessagesService();
     const talk = new Talks();
     const newMessage = new Messages();
@@ -98,6 +102,7 @@ export class TalksService extends Services {
       .where("talk.id = :id", { id: talkId })
       .leftJoinAndSelect("talk.messages", "messages")
       .leftJoinAndSelect("messages.user", "users")
+      .orderBy("messages.createdAt")
       .getOne();
   }
 }
