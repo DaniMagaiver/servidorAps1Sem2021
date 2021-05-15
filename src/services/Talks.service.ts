@@ -34,9 +34,11 @@ export class TalksService extends Services {
     if (commomTalk) {
       const talk = await this.repository.findOne(commomTalk);
       if (talk) await messageService.create({ message, sender, talk });
-      return this.repository.findOne(commomTalk);
+      return this.findOne(commomTalk);
     } else {
-      return this.create({ sender, destinatary, message });
+      const newTalk:Talks = await this.create({ sender, destinatary, message });
+      if(!newTalk) throw new Error('A conversa não pode ser criada');
+      return this.findOne(newTalk.id)
     }
   }
 
@@ -57,7 +59,7 @@ export class TalksService extends Services {
     sender: Users;
     destinatary: Users;
     message: string;
-  }) {
+  }):Promise<Talks> {
     const messageService = new MessagesService();
     const talk = new Talks();
     const newMessage = new Messages();
@@ -89,11 +91,13 @@ export class TalksService extends Services {
       .getRawMany();
   }
 
-  async findOne(id: string) {
-    this.isValidId(id);
+  async findOne(talkId: string) {
+    this.isValidId(talkId);
     return this.repository
       .createQueryBuilder("talk")
-      .where("talk.id = :id", { id }).leftJoinAndSelect('talk.messages', 'messages').leftJoinAndSelect('messages.user','users').getOne();
-    // return this.repository.findOne({where: {id}});
+      .where("talk.id = :id", { id: talkId })
+      .leftJoinAndSelect("talk.messages", "messages")
+      .leftJoinAndSelect("messages.user", "users")
+      .getOne();
   }
 }
