@@ -24,6 +24,14 @@ Abra o prompt do mysql e digite o comando:
 mysql> SHOW GLOBAL VARIABLES LIKE 'PORT';
 ```
 
+## Rodando migrations
+Para gerar as tabelas a partir das migrations utilize o comando
+```
+npm run typeorm migration:run
+```
+Por segurança recomendo rodar primeiro a migration de criação de tabelas e
+depois da de relações.
+
 ## Rodando o projeto
 Para rodar o projeto utilize o comando
 ```
