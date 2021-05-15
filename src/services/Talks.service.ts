@@ -1,5 +1,5 @@
 import { MessagesService } from "./Messages.service";
-import { FindOneOptions, getConnection, Repository, } from "typeorm";
+import { FindOneOptions, getConnection, Repository } from "typeorm";
 import { Users } from "../models";
 import { UsersService } from "./Users.service";
 import * as _ from "lodash";
@@ -41,8 +41,8 @@ export class TalksService extends Services {
   }
 
   private getCommomTalk(user1: Users, user2: Users) {
-    console.log(user1)
-    console.log(user2)
+    console.log(user1);
+    console.log(user2);
     const user1Talks = user1.talks.map(({ id }) => id);
     const user2Talks = user2.talks.map(({ id }) => id);
     const [commomTalk] = _.intersection(user1Talks, user2Talks);
@@ -83,6 +83,17 @@ export class TalksService extends Services {
   }
 
   async listTalks() {
-    return this.repository.createQueryBuilder('talks').leftJoinAndSelect('talks.users', 'user').getRawMany();
+    return this.repository
+      .createQueryBuilder("talks")
+      .leftJoinAndSelect("talks.users", "user")
+      .getRawMany();
+  }
+
+  async findOne(id: string) {
+    this.isValidId(id);
+    return this.repository
+      .createQueryBuilder("talk")
+      .where("talk.id = :id", { id }).leftJoinAndSelect('talk.messages', 'messages').leftJoinAndSelect('messages.user','users').getOne();
+    // return this.repository.findOne({where: {id}});
   }
 }

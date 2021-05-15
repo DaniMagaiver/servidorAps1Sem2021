@@ -5,7 +5,7 @@ import TalksController from "../controllers/Talks.controller";
 const talksRouter = Router();
 
 talksRouter
-  .get("/:userId", TalksController.listTalks)
+  .get("/findUserTalk/:userId", TalksController.listTalks)
   .post("/:userId", TalksController.createTalk)
   .get("/:talkId", TalksController.findOneTalk)
   .post("/:talkId", MessagesController.createMessage)

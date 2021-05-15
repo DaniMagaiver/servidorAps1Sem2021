@@ -43,6 +43,7 @@ export default class Users {
   talks: Talks[];
 
   @OneToMany(() => Messages, (message) => message.user, {
+    lazy:true,
     cascade: true,
   })
   messages: Messages[];

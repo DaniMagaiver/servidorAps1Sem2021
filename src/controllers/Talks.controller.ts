@@ -41,6 +41,11 @@ export default class TalksController {
 
   static async findOneTalk(request: Request, response: Response) {
     try {
+      const { talkId } = request.params;
+      const talkService = new TalksService();
+      const talk = await talkService.findOne(talkId);
+      
+      return response.status(200).json(talk);
     } catch (error) {
       response.status(404).json(error.message);
     }

@@ -19,6 +19,8 @@ export class MessagesService extends Services {
     sender: Users;
     message: string;
   }) {
-    return this.repository.save({ talk, message, user: sender });
+    return this.repository.save({ talk, message, user:sender});
   }
+
+  
 }
