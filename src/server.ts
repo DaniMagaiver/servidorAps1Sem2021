@@ -34,6 +34,7 @@ io.on("connection", (socket) => {
         message,
       });
       socket.emit("updatedMessages", updatedMessages);
+      socket.broadcast.emit("updatedMessages", updatedMessages);
     } catch (error) {
       console.log(`Erro ao retornar mensagem: ${error.message}`)
       socket.emit("errors", error.message)
